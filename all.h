@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 16:48:16 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/23 13:02:41 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/23 18:02:00 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,15 @@
 
 typedef struct	s_coord
 {
-	int		x;
-	int		y;
+	int			x;
+	int			y;
 }				t_coord;
 
+typedef struct	s_mlx
+{
+	void		*mlx;
+	void		*win;
+}				t_mlx;
 
 void	put_data(int **tab, char *str);
 void	print_tab(int **tab);
@@ -38,6 +43,8 @@ int		get_x(char *str);
 int		**create_tab(char *str);
 
 void	draw_2d(t_coord *coord);
+void	draw_horizont(t_coord a, t_coord b, int flag, void *mlx, void *win);
+void	draw_line(t_coord a, t_coord b, void *mlx, void *win);
 t_coord	*get_tab(int **tab);
 t_coord	*fill_up(int **tab);
 

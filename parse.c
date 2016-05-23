@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 16:48:05 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/23 13:02:44 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/23 13:05:19 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		main(int ac, char **av)
 	if (ac != 2)
 		ft_exiting("Only one arg");
 	tab = create_tab(av[1]);
-	//leaks because of tab non free
+	//leaks because of tab non free + struct ptr
 	put_data(tab, av[1]);
 	print_tab(tab);
 	all = fill_up(tab);

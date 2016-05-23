@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/23 08:12:05 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/23 13:02:46 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/23 18:07:11 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,19 @@ t_coord	*fill_up(int **tab)
 
 void	draw_2d(t_coord *coord)
 {
+	int		ct;
 	void	*mlx;
 	void	*win;
-	int		ct;
 
+	ct = 0;
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 800, 800, "swaggg");
-	ct = 0;
-	while ((coord + ct)->x != END)
+	while ((coord + ct + 1)->x != END)
 	{
-		mlx_pixel_put(mlx, win, (coord + ct)->x, (coord + ct)->y, 0xFF00FF);
+		draw_line(*(coord + ct), *(coord + ct + 1), mlx, win);
+//		mlx_pixel_put(mlx, win, (coord + ct)->x, (coord + ct)->y, 0xFF00FF);
 		ct++;
 	}
+//	sleep(30);
 	mlx_loop(mlx);
 }
