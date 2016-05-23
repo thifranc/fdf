@@ -6,7 +6,7 @@
 #    By: thifranc <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/04 19:24:34 by thifranc          #+#    #+#              #
-#    Updated: 2016/05/22 18:15:28 by thifranc         ###   ########.fr        #
+#    Updated: 2016/05/23 08:36:31 by thifranc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,21 @@ NAME = fdf
 
 INC = lib.h
 
-SRCS = parse put_data
+SRCS = parse put_data 2d
 
 SRCS:= $(addsuffix .c, $(SRCS))
 OBJ = $(SRCS:%.c=%.o)
 
 FLAGS = -Wall -Werror -Wextra
 
+OPT_FLAGS = -lmlx -framework OpenGL -framework AppKit
+
 all: $(NAME)
 
 $(NAME):
 	make re -C libft/
 	make clean -C libft/
-	gcc $(FLAGS) $(SRCS) libft/libft.a -o $(NAME)
+	gcc $(FLAGS) $(SRCS) libft/libft.a -o $(NAME) $(OPT_FLAGS)
 
 clean:
 	@$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 16:48:05 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 18:17:55 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/23 13:02:44 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ int		**create_tab(char *str)
 int		main(int ac, char **av)
 {
 	int		**tab;
+	t_coord	*all;
 
 	if (ac != 2)
 		ft_exiting("Only one arg");
 	tab = create_tab(av[1]);
 	//leaks because of tab non free
-	printf("lol");
 	put_data(tab, av[1]);
 	print_tab(tab);
+	all = fill_up(tab);
+	draw_2d(all);
 	return (0);
 }

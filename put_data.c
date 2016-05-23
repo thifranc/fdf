@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/22 18:04:56 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/22 18:15:53 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/23 08:43:55 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	print_tab(int **tab)
 			printf("%d ", tab[i][x]);
 			x++;
 		}
+		printf("%d ", tab[i][x]);
 		i++;
 	}
 }
