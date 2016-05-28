@@ -5,71 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/05/22 16:48:05 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/23 13:05:19 by thifranc         ###   ########.fr       */
+/*   Created: 2016/05/27 12:46:46 by thifranc          #+#    #+#             */
+/*   Updated: 2016/05/27 22:06:40 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all.h"
 
-int		get_y(char *str)
+int		wild_cases(int ac, char **av)
 {
 	int		fd;
-	int		ct;
-	int		ret;
-	char	*line;
 
-	line = NULL;
-	ct = 0;
-	if ((fd = open(str, O_RDONLY)) == -1)
-		ft_exiting("File couldn't open");
-	while ((ret = ft_gnl(fd, &line)) > 0)
-	{
-		printf("line == %s\n", line);
-		ct++;
-		free(line);
-	}
-	close(fd);
-	return (ct);
+	if (ac != 2)
+		exiting("One and only one arg please");
+	if ((fd = open(av[1], O_RDONLY)) == -1)
+		exiting("File couldn't open");
+	return (fd);
 }
 
-int		get_x(char *str)
+t_list	*new_node(int x, int y, int z)
 {
-	int		out;
-	int		i;
+	t_list	*out;
 
-	out = 0;
+	if (!(out = (t_list*)malloc(sizeof(t_list))))
+		return (NULL);
+	out->x = x;
+	out->y = y;
+	out->z = z;
+	out->end = 0;
+	out->next = NULL;
+	out->color = 0;
+	return (out);
+}
+
+void	add_in_list(t_list **beg, int x, int y, int z)
+{
+	if (!(*beg))
+		*beg = new_node(x, y, z);
+	else if (!(*beg)->next)
+		(*beg)->next = new_node(x, y, z);
+	else
+		add_in_list(&(*beg)->next, x, y, z);
+}
+
+t_list	*last_of(t_list *head)
+{
+	if (!head)
+		return (NULL);
+	else if (!head->next)
+		return (head);
+	else
+		return (last_of(head->next));
+}
+
+void	line_check(char *str, t_list **head, int y)
+{
+	int		i;
+	int		ct;
+	int		tmp;
+
 	i = 0;
+	ct = 0;
 	while (str[i])
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
-		if (str[i])
-			out++;
-		while (str[i] && str[i] != ' ')
-			i++;
+		tmp = ft_atoi(str + i);
+		add_in_list(&(*head), ct, y, tmp);
+		i += ft_nblen(tmp);
+//		if (str[i] && str[i] == ',')
+//			last_of(head)->color = ft_get_color(&(str + i));
+		ct++;
 	}
-	return (out);
+	last_of(*head)->end = 1;
 }
 
-int		**create_tab(char *str)
+t_list	*get_data(int fd)
 {
-	int		**out;
-	int		i;
-	int		fd;
-	int		ret;
 	char	*line;
+	t_list	*out;
+	int		y;
 
 	line = NULL;
-	i = 0;
-	if (!(out = (int**)malloc(sizeof(int*) * (get_y(str) + 1))))
-		return (NULL);
-	fd = open(str, O_RDONLY);
-	while ((ret = ft_gnl(fd, &line)) > 0)
+	out = NULL;
+	y = 0;
+	while (ft_gnl(fd, &line) > 0)
 	{
-		if (!(out[i] = (int*)malloc(sizeof(int) * (get_x(line) + 1))))
-			return (NULL);//replace by memalloc ?
-		i++;
+		line_check(line, &out, y);
+		y++;
 		free(line);
 	}
 	close(fd);
@@ -78,16 +101,11 @@ int		**create_tab(char *str)
 
 int		main(int ac, char **av)
 {
-	int		**tab;
-	t_coord	*all;
+	t_list	*head;
+	int		fd;
+	t_dot	*tab;
 
-	if (ac != 2)
-		ft_exiting("Only one arg");
-	tab = create_tab(av[1]);
-	//leaks because of tab non free + struct ptr
-	put_data(tab, av[1]);
-	print_tab(tab);
-	all = fill_up(tab);
-	draw_2d(all);
-	return (0);
+	fd = wild_cases(ac, av);
+	head = get_data(fd);
+	tab = make_tab(head);
 }
