@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 15:47:23 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/27 19:26:45 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/28 10:58:59 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,24 @@ void	draw_vert(t_dot beg, t_dot end, t_mlx mlx)
 		mlx_pixel_put(mlx.mlx, mlx.win, x, y, 0xFFFFFF);
 		y++;
 	}
+}
+
+void	add_in_list(t_list **beg, int x, int y, int z)
+{
+	if (!(*beg))
+		*beg = new_node(x, y, z);
+	else if (!(*beg)->next)
+		(*beg)->next = new_node(x, y, z);
+	else
+		add_in_list(&(*beg)->next, x, y, z);
+}
+
+t_list	*last_of(t_list *head)
+{
+	if (!head)
+		return (NULL);
+	else if (!head->next)
+		return (head);
+	else
+		return (last_of(head->next));
 }

@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 12:46:46 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/27 22:06:40 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/05/28 10:59:01 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,6 @@ t_list	*new_node(int x, int y, int z)
 	return (out);
 }
 
-void	add_in_list(t_list **beg, int x, int y, int z)
-{
-	if (!(*beg))
-		*beg = new_node(x, y, z);
-	else if (!(*beg)->next)
-		(*beg)->next = new_node(x, y, z);
-	else
-		add_in_list(&(*beg)->next, x, y, z);
-}
-
-t_list	*last_of(t_list *head)
-{
-	if (!head)
-		return (NULL);
-	else if (!head->next)
-		return (head);
-	else
-		return (last_of(head->next));
-}
-
 void	line_check(char *str, t_list **head, int y)
 {
 	int		i;
@@ -73,8 +53,6 @@ void	line_check(char *str, t_list **head, int y)
 		tmp = ft_atoi(str + i);
 		add_in_list(&(*head), ct, y, tmp);
 		i += ft_nblen(tmp);
-//		if (str[i] && str[i] == ',')
-//			last_of(head)->color = ft_get_color(&(str + i));
 		ct++;
 	}
 	last_of(*head)->end = 1;
