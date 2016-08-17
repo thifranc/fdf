@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 12:46:46 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/28 10:59:01 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/08/17 17:59:26 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	line_check(char *str, t_list **head, int y)
 			i++;
 		tmp = ft_atoi(str + i);
 		add_in_list(&(*head), ct, y, tmp);
-		i += ft_nblen(tmp);
+		if (str[i] != '\0')
+			i += ft_nblen(tmp);
 		ct++;
 	}
 	last_of(*head)->end = 1;

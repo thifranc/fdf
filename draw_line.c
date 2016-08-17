@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 15:47:23 by thifranc          #+#    #+#             */
-/*   Updated: 2016/05/28 10:58:59 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/08/17 17:58:43 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,17 @@ void	draw_vert(t_dot beg, t_dot end, t_mlx mlx)
 
 void	add_in_list(t_list **beg, int x, int y, int z)
 {
-	if (!(*beg))
+	t_list	*tmp;
+
+	tmp = *beg;
+	if (!tmp)
 		*beg = new_node(x, y, z);
-	else if (!(*beg)->next)
-		(*beg)->next = new_node(x, y, z);
 	else
-		add_in_list(&(*beg)->next, x, y, z);
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_node(x, y, z);
+	}
 }
 
 t_list	*last_of(t_list *head)
