@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 12:46:46 by thifranc          #+#    #+#             */
-/*   Updated: 2016/08/17 17:59:26 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/08/18 09:05:44 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int		wild_cases(int ac, char **av)
 	int		fd;
 
 	if (ac != 2)
-		exiting("One and only one arg please");
+		exiting("One and only one arg please\n");
 	if ((fd = open(av[1], O_RDONLY)) == -1)
-		exiting("File couldn't open");
+		exiting("File couldn't open\n");
 	return (fd);
 }
 
@@ -38,7 +38,7 @@ t_list	*new_node(int x, int y, int z)
 	return (out);
 }
 
-void	line_check(char *str, t_list **head, int y)
+int		line_check(char *str, t_list **head, int y)
 {
 	int		i;
 	int		ct;
@@ -50,13 +50,16 @@ void	line_check(char *str, t_list **head, int y)
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
-		tmp = ft_atoi(str + i);
+		tmp = ft_atoi_error(str + i);
 		add_in_list(&(*head), ct, y, tmp);
 		if (str[i] != '\0')
 			i += ft_nblen(tmp);
+		if (str[i] && str[i] != ' ')
+			return (0);
 		ct++;
 	}
 	last_of(*head)->end = 1;
+	return (1);
 }
 
 t_list	*get_data(int fd)
@@ -70,7 +73,9 @@ t_list	*get_data(int fd)
 	y = 0;
 	while (ft_gnl(fd, &line) > 0)
 	{
-		line_check(line, &out, y);
+		if (!line_check(line, &out, y))
+			exiting("Data map not well formated, only numbers please\n");
+		dprintf(1, "y = %d\n", y);
 		y++;
 		free(line);
 	}
@@ -86,5 +91,7 @@ int		main(int ac, char **av)
 
 	fd = wild_cases(ac, av);
 	head = get_data(fd);
+	if (!head)
+		exiting("Nothing found in file\n");
 	tab = make_tab(head);
 }

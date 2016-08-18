@@ -6,7 +6,7 @@
 /*   By: thifranc <thifranc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/27 14:11:00 by thifranc          #+#    #+#             */
-/*   Updated: 2016/08/17 17:59:26 by thifranc         ###   ########.fr       */
+/*   Updated: 2016/08/18 08:57:44 by thifranc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,34 @@ int		ft_quit(int key)
 	if (key == 53)
 		exit(-1);
 	return (0);
+}
+
+int		ft_atoi_error(char *str)
+{
+	int i;
+	int flag;
+	int nb;
+
+	i = 0;
+	nb = 0;
+	flag = 0;
+	while (str[i] && (str[i] == '\t' || str[i] == '\n' || str[i] == ' '
+			|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
+		i++;
+	if (str[i] == '-')
+		flag = 1;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while ('0' <= str[i] && str[i] <= '9' && str[i])
+	{
+		nb = nb * 10 + str[i] - 48;
+		i++;
+	}
+	if (str[i] && str[i] != ' ' && str[i] != '\n' && str[i] != '\t')
+		exiting("Data map not well formated, only numbers please\n");
+	if (flag == 1)
+		nb = -nb;
+	return (nb);
 }
 
 void	put_dots(t_dot *dot, t_mlx mlx)
